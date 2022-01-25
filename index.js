@@ -1,3 +1,9 @@
+const express = require('express');
+
+const app = express();
+
+app.use(express.json());
+
 require('dotenv').config();
 
 // não remova esse endpoint, e para o avaliador funcionar
