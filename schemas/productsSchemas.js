@@ -15,6 +15,7 @@ const errors = {
     quantityBlank: '"quantity" is required',
     quantityValid: '"quantity" must be a number larger than or equal to 1',
     existProduct: 'Product already exists',
+    notFound: 'Product not found',
 };
 
 const blankName = (value) => (!value);
