@@ -23,6 +23,8 @@ app.get('/products/:id', ProductsController.getById);
 
 app.put('/products/:id', ProductsMiddlewares.validateProducts, ProductsController.updateProducts);
 
+app.delete('/products/:id', ProductsController.deleteProducts);
+
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
 });
