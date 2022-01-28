@@ -21,6 +21,8 @@ app.get('/products/', ProductsController.getAll);
 
 app.get('/products/:id', ProductsController.getById);
 
+app.put('/products/:id', ProductsMiddlewares.validateProducts, ProductsController.updateProducts);
+
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
 });

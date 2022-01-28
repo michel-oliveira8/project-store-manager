@@ -1,5 +1,5 @@
 const ProductService = require('../services/productsService');
-const { code } = require('../schemas/productsSchemas');
+const { code, errors } = require('../schemas/productsSchemas');
 
 const create = async (req, res) => {
     const { name, quantity } = req.body;
@@ -21,15 +21,29 @@ const getById = async (req, res) => {
     const { id } = req.params;
 
     const productId = await ProductService.getById(id);
-    console.log(productId);
 
     if (productId.message) return res.status(productId.code).json({ message: productId.message });
 
     res.status(code.OK).json(productId);
 };
 
+const updateProducts = async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+
+    const productUpdate = await ProductService.updateProducts(name, quantity, id);
+
+    if (productUpdate.message) {
+        return res.status(code.NOT_FOUND)
+        .json({ message: errors.notFound }); 
+}
+
+    res.status(code.OK).json({ name, quantity });
+};
+
 module.exports = {
     create,
     getAll,
     getById,
+    updateProducts,
 };
