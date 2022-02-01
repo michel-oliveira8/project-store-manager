@@ -1,5 +1,5 @@
 const ProductService = require('../services/productsService');
-const { code, errors } = require('../schemas/productsSchemas');
+const { OK, CREATED, NOT_FOUND, notFound } = require('../schemas/productsSchemas');
 
 const create = async (req, res) => {
     const { name, quantity } = req.body;
@@ -8,13 +8,13 @@ const create = async (req, res) => {
 
     if (product.message) return res.status(product.code).json({ message: product.message });
 
-    res.status(code.CREATED).json({ id: product.id, name, quantity });
+    res.status(CREATED).json({ id: product.id, name, quantity });
 };
 
 const getAll = async (_req, res) => {
     const listProduct = await ProductService.getAll();
 
-    res.status(code.OK).json(listProduct);
+    res.status(OK).json(listProduct);
 };
 
 const getById = async (req, res) => {
@@ -24,7 +24,7 @@ const getById = async (req, res) => {
 
     if (productId.message) return res.status(productId.code).json({ message: productId.message });
 
-    res.status(code.OK).json(productId);
+    res.status(OK).json(productId);
 };
 
 const updateProducts = async (req, res) => {
@@ -34,11 +34,11 @@ const updateProducts = async (req, res) => {
     const productUpdate = await ProductService.updateProducts(name, quantity, id);
 
     if (productUpdate.message) {
-        return res.status(code.NOT_FOUND)
-        .json({ message: errors.notFound }); 
+        return res.status(NOT_FOUND)
+        .json({ message: notFound }); 
 }
 
-    res.status(code.OK).json({ name, quantity });
+    res.status(OK).json({ name, quantity });
 };
 
 const deleteProducts = async (req, res) => {
@@ -47,11 +47,11 @@ const deleteProducts = async (req, res) => {
     const productDeleted = await ProductService.deleteProducts(id);
 
     if (productDeleted.message) {
-        return res.status(code.NOT_FOUND)
-        .json({ message: errors.notFound });
+        return res.status(NOT_FOUND)
+        .json({ message: notFound });
     }
 
-    res.status(code.OK).json(productDeleted);
+    res.status(OK).json(productDeleted);
 };
 
 module.exports = {

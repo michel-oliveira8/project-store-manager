@@ -1,44 +1,60 @@
-const code = {
-    OK: 200,
-    CREATED: 201,
-    BAD_REQUEST: 400,
-    NOT_FOUND: 404,
-    CONFLICT: 409,
-    UNPROCESSABLE_ENTITY: 422,
-    };
+const OK = 200;
+const CREATED = 201;
+const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
+const CONFLICT = 409;
+const UNPROCESSABLE_ENTITY = 422;
 
 // Referencia: https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
 
-const errors = {
-    nameBlank: '"name" is required',
-    nameLength: '"name" length must be at least 5 characters long',
-    quantityBlank: '"quantity" is required',
-    quantityValid: '"quantity" must be a number larger than or equal to 1',
-    existProduct: 'Product already exists',
-    notFound: 'Product not found',
-};
+const nameBlank = '"name" is required';
+const nameLength = '"name" length must be at least 5 characters long';
+const quantityBlank = '"quantity" is required';
+const quantityValid = '"quantity" must be a number larger than or equal to 1';
+const existProduct = 'Product already exists';
+const notFound = 'Product not found';
+const productIdBlank = '"product_id" is required';
 
 const blankName = (value) => (!value);
 const isLengthLetterThan = (value, min) => (value.length < min);
 const blankQuantity = (value) => (value === undefined);
 const valid = (value) => (value < 1 || !Number.isInteger(value));
+const blankProductId = (value) => (value === undefined);
 
-const validate = (name, quantity) => {
+const validateProducts = (name, quantity) => {
     switch (true) {
-        case blankName(name): return { code: code.BAD_REQUEST, message: errors.nameBlank };
+        case blankName(name): return { code: BAD_REQUEST, message: nameBlank };
         case isLengthLetterThan(name, 5): return {
-             code: code.UNPROCESSABLE_ENTITY, message: errors.nameLength };
+             code: UNPROCESSABLE_ENTITY, message: nameLength };
         case blankQuantity(quantity): return {
-             code: code.BAD_REQUEST, message: errors.quantityBlank };
+             code: BAD_REQUEST, message: quantityBlank };
         case valid(quantity): return {
-             code: code.UNPROCESSABLE_ENTITY, message: errors.quantityValid };
+             code: UNPROCESSABLE_ENTITY, message: quantityValid };
+        default:
+            return {};
+    }
+};
+
+const validateSales = (productId, quantity) => {
+    switch (true) {
+        case blankProductId(productId): return {
+             code: BAD_REQUEST, message: productIdBlank };
+        case blankQuantity(quantity): return {
+             code: BAD_REQUEST, message: quantityBlank };
+        case valid(quantity): return {
+             code: UNPROCESSABLE_ENTITY, message: quantityValid };
         default:
             return {};
     }
 };
 
 module.exports = { 
-    validate,
-    code,
-    errors,
+    validateProducts,
+    validateSales,
+    OK,
+    CREATED,
+    NOT_FOUND,
+    CONFLICT,
+    existProduct,
+    notFound,
 };

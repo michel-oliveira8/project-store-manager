@@ -1,12 +1,12 @@
 const ProductsModel = require('../models/productsModel');
-const { code, errors } = require('../schemas/productsSchemas');
+const { NOT_FOUND, CONFLICT, existProduct, notFound } = require('../schemas/productsSchemas');
 
 const create = async (name, quantity) => {
     const repeatProduct = await ProductsModel.getByName(name);
     if (repeatProduct) {
         return {
-            code: code.CONFLICT,
-            message: errors.existProduct,
+            code: CONFLICT,
+            message: existProduct,
         };
     }
     return ProductsModel.create(name, quantity);
@@ -22,8 +22,8 @@ const getById = async (id) => {
     const repeatId = await ProductsModel.getById(id);
     if (!repeatId) {
         return {
-            code: code.NOT_FOUND,
-            message: errors.notFound,
+            code: NOT_FOUND,
+            message: notFound,
         };
     }
     return ProductsModel.getById(id);
@@ -33,8 +33,8 @@ const updateProducts = async (name, quantity, id) => {
     const productUpdate = await ProductsModel.updateProducts(name, quantity, id);
     if (productUpdate.affectedRows === 0) {
         return {
-            code: code.NOT_FOUND,
-            message: errors.notFound,
+            code: NOT_FOUND,
+            message: notFound,
         }; 
     }
 
@@ -46,8 +46,8 @@ const deleteProducts = async (id) => {
     const productDeleted = await ProductsModel.deleteProducts(id);
     if (productDeleted.affectedRows === 0) {
         return {
-            code: code.NOT_FOUND,
-            message: errors.notFound,
+            code: NOT_FOUND,
+            message: notFound,
         };
     }
     return deleteById;
