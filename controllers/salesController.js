@@ -1,5 +1,5 @@
 const SalesService = require('../services/salesService');
-const { CREATED, OK } = require('../schemas/productsSchemas');
+const { CREATED, OK, NOT_FOUND, saleNotFound } = require('../schemas/productsSchemas');
 
 const create = async (req, res) => {
     const sale = req.body;
@@ -27,8 +27,21 @@ const saleById = async (req, res) => {
     res.status(OK).json(saleId);
 };
 
+const updateSales = async (req, res) => {
+    const { id } = req.params;
+    const itemUpdated = req.body;
+
+    const update = await SalesService.updateSale(itemUpdated, id);
+    console.log(update);
+
+    if (update.affectedRows === 0) return res.status(NOT_FOUND).json({ message: saleNotFound });
+
+    res.status(OK).json({ saleId: id, itemUpdated });
+};
+
 module.exports = {
      create,
      getAll,
      saleById,
+     updateSales,
 };

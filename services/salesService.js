@@ -26,7 +26,6 @@ const getAll = async () => {
 
 const saleById = async (id) => {
     const saleId = await salesModel.getById(id);
-    console.log(saleId);
     if (saleId.length === 0) {
         return {
             code: NOT_FOUND,
@@ -36,8 +35,16 @@ const saleById = async (id) => {
     return saleId;
 };
 
+const updateSale = async ([{ product_id, quantity }], id) => {
+    const update = await salesModel.updateSale(product_id, quantity, id);
+
+    return update;
+};
+
 module.exports = {
      saledProducts,
      getAll,
      saleById,
+     updateSale,
+     
 };
