@@ -14,6 +14,7 @@ const quantityValid = '"quantity" must be a number larger than or equal to 1';
 const existProduct = 'Product already exists';
 const notFound = 'Product not found';
 const productIdBlank = '"product_id" is required';
+const saleNotFound = 'Sale not found';
 
 const blankName = (value) => (!value);
 const isLengthLetterThan = (value, min) => (value.length < min);
@@ -57,4 +58,5 @@ module.exports = {
     CONFLICT,
     existProduct,
     notFound,
+    saleNotFound,
 };

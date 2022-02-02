@@ -17,7 +17,28 @@ const create = async (saleId, productId, quantity) => {
     };
 };
 
+const getAll = async () => {
+    const [result] = await connection
+    .execute(
+        'SELECT sp.sale_id as saleId, s.date, sp.product_id, sp.quantity from sales as s'
+        + ' inner join sales_products as sp on sp.sale_id = s.id',
+);
+    return result;
+};
+
+const getById = async (id) => {
+  const [sale] = await connection
+  .execute(
+    'SELECT s.date, sp.product_id, sp.quantity from sales as s'
+        + ' inner join sales_products as sp on sp.sale_id = ? and s.id = ?',
+        [id, id],
+  );
+  return sale;
+};
+
 module.exports = {
      createDate,
      create,
+     getAll,
+     getById,
 };
